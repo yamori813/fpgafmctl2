@@ -31,8 +31,8 @@
 #define MYUBBR ((F_CPU / (BAUD * 16L)) - 1)
 #define BUFFER_SIZE 8
 
-volatile static uint8_t rx_buffer[BUFFER_SIZE] = "xxxxxxxxxxxxxxxx";
-volatile static uint8_t tx_buffer[BUFFER_SIZE] = "xxxxxxxxxxxxxxxx";
+volatile static uint8_t rx_buffer[BUFFER_SIZE] = "xxxxxxxx";
+volatile static uint8_t tx_buffer[BUFFER_SIZE] = "xxxxxxxx";
 volatile static uint8_t rx_head = 0;
 volatile static uint8_t rx_tail = 0;
 volatile static uint8_t tx_head = 0;
