@@ -22,8 +22,8 @@ volatile int irstat;
 volatile int locount;
 volatile int hicount;
 volatile int bitcount;
-volatile long lastvalue;
-volatile long irvalue;
+volatile short lastvalue;
+volatile short irvalue;
 
 void selectst(int st, int level, int muti, int stattx, int band, int mono, int mute, int sample);
 
@@ -105,7 +105,7 @@ int mono = 0; // 1 = mono, 0 = Stereo Auto
 int idlecount;
 
 int tune = 0;
-long lastsend = 0;
+short lastsend = 0;
 
 void init_ir ( void )
 {
