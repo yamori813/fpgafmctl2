@@ -6,4 +6,6 @@
 
 #define LED_BIT		PD5
 
+void lcd_putc(char);
+
 #endif

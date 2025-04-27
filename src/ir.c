@@ -18,8 +18,6 @@
 
 #define STARTLOWLEN 72
 
-volatile int ispc;
-volatile int insleep;
 volatile int irstat;
 volatile int locount;
 volatile int hicount;
@@ -121,7 +119,6 @@ void init_ir ( void )
 	// INTピンの論理変化で割り込み
 	MCUCR |= (1<<ISC00);
 	idlecount = 0;
-	insleep = 0;
 }
 
 void chk_ir()
@@ -224,6 +221,9 @@ void selectst(int st, int level, int muti, int stattx, int band, int mono, int m
 {
 //	int fqint = eeprom_read_word(&jcom_tokyo_freq[st]);
 	int fqint = jcom_tokyo_freq[st];
+
+	lcd_putc('1' + st);
+	lcd_putc(':');
 
 	uart_putc((fqint / 100) + '0');
 	uart_putc((fqint / 10) % 10 + '0');
