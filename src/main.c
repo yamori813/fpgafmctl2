@@ -31,9 +31,6 @@ void lcd_putc(char c)
 {
 unsigned char buf[4];
 
-  if(c < 0x20)
-    c = ' ';
-
    buf[0] = LCD_ADDR;
    buf[3] =  buf[1] = bk | 0x01 | (c & 0xf0);
    buf[2] = bk | 0x0d | (c & 0xf0);
@@ -121,13 +118,23 @@ int main(void) {
 
     c = uart_getc();
     if (c != UART_NO_DATA) {
+/*
       ++i;
       if(i > 80) {
          lcd_ctl(0x01);
          lcd_ctl(0x02);
          i = 0;
       }
-      lcd_putc(c);
+*/
+      if (c < 0x20) {
+        ++i;
+        if (i % 3)
+          c = ' ';
+        else
+          c = 0;
+      }
+      if (c)
+        lcd_putc(c);
     }
     chk_ir();
     _delay_ms(100);
