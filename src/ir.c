@@ -227,7 +227,6 @@ void selectst(int st, int level, int muti, int stattx, int band, int mono, int m
 	lcd_putc('1' + st);
 	lcd_putc(':');
 
-	UBRRL = 8;
 	uart_putc((fqint / 100) + '0');
 	uart_putc((fqint / 10) % 10 + '0');
 	uart_putc(fqint % 10 + '0');
@@ -238,5 +237,4 @@ void selectst(int st, int level, int muti, int stattx, int band, int mono, int m
 		fast = 0;
 	}
 	uart_putc('\n');
-	UBRRL = 7;
 }

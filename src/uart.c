@@ -29,7 +29,7 @@
 // 38400: 5.6667
 
 //#define MYUBBR ((F_CPU / (BAUD * 16L)) - 1)
-#define MYUBBR (F_CPU / (BAUD * 8L))
+#define MYUBBR (F_CPU / (BAUD * 8L) - 1)
 #define BUFFER_SIZE 8
 
 volatile static uint8_t rx_buffer[BUFFER_SIZE] = "xxxxxxxx";
