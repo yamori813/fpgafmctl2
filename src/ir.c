@@ -198,7 +198,8 @@ void chk_ir()
 					break;
 				case 0x110:   // 9
 				case 0x111:   // 9
-					button = 9;
+					lcd_ctl(0x01);
+					lcd_ctl(0x02);
 					break;
 				case 0x910:   // 10
 				case 0x510:   // 11
