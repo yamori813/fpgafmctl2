@@ -221,15 +221,21 @@ void selectst(int st, int level, int muti, int stattx, int band, int mono, int m
 {
 //	int fqint = eeprom_read_word(&jcom_tokyo_freq[st]);
 	int fqint = jcom_tokyo_freq[st];
+	static char fast = 1;
 
 	lcd_putc('1' + st);
 	lcd_putc(':');
 
+	UBRRL = 8;
 	uart_putc((fqint / 100) + '0');
 	uart_putc((fqint / 10) % 10 + '0');
 	uart_putc(fqint % 10 + '0');
-	uart_putc(hexchar(level));
-	uart_putc(hexchar(muti << 3 | stattx << 2 | band));
-	uart_putc(hexchar(mono << 3 | mute << 2 | sample));
+	if(fast) {
+		uart_putc(hexchar(level));
+		uart_putc(hexchar(muti << 3 | stattx << 2 | band));
+		uart_putc(hexchar(mono << 3 | mute << 2 | sample));
+		fast = 0;
+	}
 	uart_putc('\n');
+	UBRRL = 7;
 }

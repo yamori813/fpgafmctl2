@@ -28,7 +28,8 @@
 // 28800: 7.8889
 // 38400: 5.6667
 
-#define MYUBBR ((F_CPU / (BAUD * 16L)) - 1)
+//#define MYUBBR ((F_CPU / (BAUD * 16L)) - 1)
+#define MYUBBR (F_CPU / (BAUD * 8L))
 #define BUFFER_SIZE 8
 
 volatile static uint8_t rx_buffer[BUFFER_SIZE] = "xxxxxxxx";
@@ -44,6 +45,8 @@ volatile static uint8_t sent = TRUE;
  * init_uart
  */
 void init_uart(void) {
+  // Asynchronous Double Speed mode
+  UCSRA |= (1 << 1);
   // set baud rate
   UBRRH = (uint8_t)(MYUBBR >> 8); 
   UBRRL = (uint8_t)(MYUBBR);
