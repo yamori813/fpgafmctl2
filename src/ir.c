@@ -27,8 +27,10 @@ volatile short irvalue;
 
 void selectst(int st, int level, int muti, int stattx, int band, int mono, int mute, int sample);
 
+// "BAY-FM","FMFuji", "NACK5 ", "TokyoFM", "J-WAVE", "NHK-FM", "FMYokohama", "InterFM"};
 //uint16_t jcom_tokyo_freq[] EEMEM = {768,774,783,789,803,809,816,822,828};
 uint16_t jcom_tokyo_freq[]  = {768,774,783,789,803,809,816,822,828};
+char stchar[] = {'B', 'F', '5', 'T', 'J', 'N', 'Y', 'I'};
 
 #if 0
 ISR(INT1_vect)
@@ -221,10 +223,12 @@ void chk_ir()
 void selectst(int st, int level, int muti, int stattx, int band, int mono, int mute, int sample)
 {
 //	int fqint = eeprom_read_word(&jcom_tokyo_freq[st]);
+	int i;
 	int fqint = jcom_tokyo_freq[st];
 	static char fast = 1;
 
-	lcd_putc('1' + st);
+//	lcd_putc('1' + st);
+	lcd_putc(stchar[st]);
 	lcd_putc(':');
 
 	uart_putc((fqint / 100) + '0');

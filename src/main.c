@@ -32,12 +32,12 @@ void lcd_putc(char c)
 unsigned char buf[4];
 
    buf[0] = LCD_ADDR;
-   buf[3] =  buf[1] = bk | 0x01 | (c & 0xf0);
-   buf[2] = bk | 0x0d | (c & 0xf0);
+   buf[3] =  buf[1] = bk | LCD_RS | (c & 0xf0);
+   buf[2] = buf[1] | LCD_E;
    USI_I2C_Master_Start_Transmission(buf, 4);
    buf[0] = LCD_ADDR;
-   buf[3] = buf[1] = bk | 0x01 | ((c & 0xf) << 4);
-   buf[2] = bk | 0x0d | ((c & 0xf) << LCD_DATA_SHIFT);
+   buf[3] = buf[1] = bk | LCD_RS | ((c & 0xf) << LCD_DATA_SHIFT);
+   buf[2] = buf[1] | LCD_E;
    USI_I2C_Master_Start_Transmission(buf, 4);
 }
 
@@ -47,11 +47,11 @@ unsigned char buf[4];
 
   buf[0] = LCD_ADDR;
   buf[3] = buf[1] = bk | (c & 0xf0);
-  buf[2] = bk | 0x04 | (c & 0xf0);
+  buf[2] = buf[1] | LCD_E;
   USI_I2C_Master_Start_Transmission(buf, 4);
   buf[0] = LCD_ADDR;
-  buf[3] = buf[1] = bk | ((c & 0xf) << 4);
-  buf[2] = bk | 0x04 | ((c & 0xf) << LCD_DATA_SHIFT);
+  buf[3] = buf[1] = bk | ((c & 0xf) << LCD_DATA_SHIFT);
+  buf[2] = buf[1] | LCD_E;
   USI_I2C_Master_Start_Transmission(buf, 4);
 }
 
