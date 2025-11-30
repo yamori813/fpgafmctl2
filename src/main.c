@@ -9,6 +9,7 @@
 #include <inttypes.h>
 #include <avr/io.h>
 #include <avr/interrupt.h>
+#include <avr/eeprom.h>
 #include <util/delay.h>
 
 #include "globals.h"
@@ -24,6 +25,8 @@
 
 void init_ir();
 void chk_ir();
+
+void selectst(uint8_t st);
 
 uint8_t bk = 0;
 
@@ -112,6 +115,13 @@ int main(void) {
   bk = 0x08;
 
   sei();
+
+  eeprom_busy_wait();
+  uint8_t last = eeprom_read_byte(0);
+  if (last > 7)
+    last = 0;
+  _delay_ms(100);
+  selectst(last);
 
   i = 0;
   while (1) {

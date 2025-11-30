@@ -25,7 +25,7 @@ volatile int bitcount;
 volatile short lastvalue;
 volatile short irvalue;
 
-void selectst(int st, int level, int muti, int stattx, int band, int mono, int mute, int sample);
+void selectst(uint8_t st);
 
 // "BAY-FM","FMFuji", "NACK5 ", "TokyoFM", "J-WAVE", "NHK-FM", "FMYokohama", "InterFM"};
 //uint16_t jcom_tokyo_freq[] EEMEM = {768,774,783,789,803,809,816,822,828};
@@ -91,18 +91,18 @@ char hexchar(int val)
 // 12		13		14		15
 // 76.8		73.1		69.8		66.8
 // default 3
-int level = 3;
+#define LEVEL 3
 
 // 0      1      2      3
 // 236kHz 198kHz 162kHz 126kHz
 // default 1
-int band = 1;
-int stattx = 0; // 0 = off, 1 = on
-int muti = 0; // Multi path off = 0, on = 1
+#define BAND 1
+#define STATTX 0 // 0 = off, 1 = on
+#define MUTI 0 // Multi path off = 0, on = 1
 
-int sample = 0; // 0 = 48k, 1 = 96K, 2 = 192K, 3 = 192K 
-int mute = 0; // Muting 0 = Off, 1 = on
-int mono = 0; // 1 = mono, 0 = Stereo Auto
+#define SAMPLE 0 // 0 = 48k, 1 = 96K, 2 = 192K, 3 = 192K 
+#define MUTE 0 // Muting 0 = Off, 1 = on
+#define MONO 0 // 1 = mono, 0 = Stereo Auto
 
 int idlecount;
 
@@ -156,7 +156,7 @@ void chk_ir()
 		++tune;
 		if (tune == 8)
 			tune = 0;
-		selectst(tune, level, muti, stattx, band, mono, mute, sample);
+		selectst(tune);
 		irstat = 0;
 	}
 #endif
@@ -211,7 +211,7 @@ void chk_ir()
 					break;
 			}
 			if(button != 0) {
-				selectst(button -1, level, muti, stattx, band, mono, mute, sample);
+				selectst(button -1);
 			}
 			GIMSK |= (1<<INT0);
 		}
@@ -220,10 +220,10 @@ void chk_ir()
 	}
 }
 
-void selectst(int st, int level, int muti, int stattx, int band, int mono, int mute, int sample)
+void selectst(uint8_t st)
 {
 //	int fqint = eeprom_read_word(&jcom_tokyo_freq[st]);
-	int i;
+//	int i;
 	int fqint = jcom_tokyo_freq[st];
 	static char fast = 1;
 
@@ -235,10 +235,13 @@ void selectst(int st, int level, int muti, int stattx, int band, int mono, int m
 	uart_putc((fqint / 10) % 10 + '0');
 	uart_putc(fqint % 10 + '0');
 	if(fast) {
-		uart_putc(hexchar(level));
-		uart_putc(hexchar(muti << 3 | stattx << 2 | band));
-		uart_putc(hexchar(mono << 3 | mute << 2 | sample));
+		uart_putc(hexchar(LEVEL));
+		uart_putc(hexchar(MUTI << 3 | STATTX << 2 | BAND));
+		uart_putc(hexchar(MONO << 3 | MUTE << 2 | SAMPLE));
 		fast = 0;
 	}
 	uart_putc('\n');
+
+	eeprom_busy_wait();
+	eeprom_write_byte(0, st);
 }
