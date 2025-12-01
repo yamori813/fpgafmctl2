@@ -29,6 +29,7 @@ void chk_ir();
 void selectst(uint8_t st);
 
 uint8_t bk = 0;
+uint8_t count = 0;
 
 void lcd_putc(char c)
 {
@@ -117,13 +118,12 @@ int main(void) {
   sei();
 
   eeprom_busy_wait();
-  uint8_t last = eeprom_read_byte(0);
+  uint8_t last = eeprom_read_byte((uint8_t*)0);
   if (last > 7)
     last = 0;
-  _delay_ms(100);
+  _delay_ms(10);
   selectst(last);
 
-  i = 0;
   while (1) {
 
     c = uart_getc();
@@ -137,8 +137,8 @@ int main(void) {
       }
 */
       if (c < 0x20) {
-        ++i;
-        if (i % 3)
+        ++count;
+        if (count % 3)
           c = ' ';
         else
           c = 0;

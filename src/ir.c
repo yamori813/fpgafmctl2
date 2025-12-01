@@ -18,6 +18,8 @@
 
 #define STARTLOWLEN 72
 
+extern uint8_t count;
+
 volatile int irstat;
 volatile int locount;
 volatile int hicount;
@@ -202,6 +204,7 @@ void chk_ir()
 				case 0x111:   // 9
 					lcd_ctl(0x01);
 					lcd_ctl(0x02);
+					count = 0;
 					break;
 				case 0x910:   // 10
 				case 0x510:   // 11
@@ -211,7 +214,10 @@ void chk_ir()
 					break;
 			}
 			if(button != 0) {
-				selectst(button -1);
+				eeprom_busy_wait();
+				eeprom_write_byte((uint8_t*)0, button - 1);
+
+				selectst(button - 1);
 			}
 			GIMSK |= (1<<INT0);
 		}
@@ -242,6 +248,4 @@ void selectst(uint8_t st)
 	}
 	uart_putc('\n');
 
-	eeprom_busy_wait();
-	eeprom_write_byte(0, st);
 }
