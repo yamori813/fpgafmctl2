@@ -18,7 +18,7 @@
 
 #define STARTLOWLEN 72
 
-extern uint8_t count;
+//extern uint8_t count;
 
 volatile int irstat;
 volatile int locount;
@@ -204,7 +204,7 @@ void chk_ir()
 				case 0x111:   // 9
 					lcd_ctl(0x01);
 					lcd_ctl(0x02);
-					count = 0;
+//					count = 0;
 					break;
 				case 0x910:   // 10
 				case 0x510:   // 11
@@ -234,6 +234,8 @@ void selectst(uint8_t st)
 	static char fast = 1;
 
 //	lcd_putc('1' + st);
+	lcd_ctl(0x01);
+	lcd_ctl(0x02);
 	lcd_putc(stchar[st]);
 	lcd_putc(':');
 

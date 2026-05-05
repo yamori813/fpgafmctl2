@@ -29,7 +29,7 @@ void chk_ir();
 void selectst(uint8_t st);
 
 uint8_t bk = 0;
-uint8_t count = 0;
+//uint8_t count = 0;
 
 void lcd_putc(char c)
 {
@@ -39,10 +39,12 @@ unsigned char buf[4];
    buf[3] =  buf[1] = bk | LCD_RS | (c & 0xf0);
    buf[2] = buf[1] | LCD_E;
    USI_I2C_Master_Start_Transmission(buf, 4);
+  _delay_ms(10);
    buf[0] = LCD_ADDR;
    buf[3] = buf[1] = bk | LCD_RS | ((c & 0xf) << LCD_DATA_SHIFT);
    buf[2] = buf[1] | LCD_E;
    USI_I2C_Master_Start_Transmission(buf, 4);
+  _delay_ms(10);
 }
 
 void lcd_ctl(char c)
@@ -53,10 +55,12 @@ unsigned char buf[4];
   buf[3] = buf[1] = bk | (c & 0xf0);
   buf[2] = buf[1] | LCD_E;
   USI_I2C_Master_Start_Transmission(buf, 4);
+  _delay_ms(10);
   buf[0] = LCD_ADDR;
   buf[3] = buf[1] = bk | ((c & 0xf) << LCD_DATA_SHIFT);
   buf[2] = buf[1] | LCD_E;
   USI_I2C_Master_Start_Transmission(buf, 4);
+  _delay_ms(10);
 }
 
 int main(void) {
@@ -93,19 +97,20 @@ int main(void) {
     buf[3] = buf[1] = 0x30;
     buf[2] = 0x34;
     USI_I2C_Master_Start_Transmission(buf, 4);
-    _delay_ms(5);
+    _delay_ms(10);
   }
 
   buf[0] = LCD_ADDR;
   buf[3] = buf[1] = 0x20;
   buf[2] = 0x24;
   USI_I2C_Master_Start_Transmission(buf, 4);
+  _delay_ms(10);
 
   /* function setup */
   lcd_ctl(0x28);
 
   /* display on, cursole on, blink on */
-  lcd_ctl(0x0f);
+  lcd_ctl(0x0c);
 
   /* clear display */
   lcd_ctl(0x01);
@@ -136,6 +141,7 @@ int main(void) {
          i = 0;
       }
 */
+/*
       if (c < 0x20) {
         ++count;
         if (count % 3)
@@ -144,6 +150,8 @@ int main(void) {
           c = 0;
       }
       if (c)
+*/
+      if (c >= 0x20)
         lcd_putc(c);
     }
     chk_ir();
