@@ -234,7 +234,7 @@ void selectst(uint8_t st)
 	static char fast = 1;
 
 //	lcd_putc('1' + st);
-	lcd_ctl(0x01);
+//	lcd_ctl(0x01);
 	lcd_ctl(0x02);
 	lcd_putc(stchar[st]);
 	lcd_putc(':');
