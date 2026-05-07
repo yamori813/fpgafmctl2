@@ -20,10 +20,10 @@
 
 //extern uint8_t count;
 
-volatile int irstat;
+volatile uint8_t irstat;
 volatile int locount;
 volatile int hicount;
-volatile int bitcount;
+volatile uint8_t bitcount;
 volatile short lastvalue;
 volatile short irvalue;
 
