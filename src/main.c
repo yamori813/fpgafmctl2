@@ -156,15 +156,21 @@ int main(void) {
         buf[p] = c;
         ++p;
       } else {
+        lcd_ctl(0xc0);
+        lcd_putc(' ');
+        lcd_putc(' ');
         if (buf[0] != '0')
           lcd_putc(buf[0]);
         lcd_putc(buf[1]);
         lcd_putc(buf[2]);
-        if (buf[0] == '0')
+        if (buf[0] == '0') {
           lcd_putc('.');
-        lcd_putc(buf[3]);
-        lcd_putc('d');
-        lcd_putc('B');
+          lcd_putc(buf[3]);
+          lcd_putc('d');
+          lcd_putc('B');
+        } else {
+          lcd_putc(buf[3]);
+        }
         p = 0;
       }
     }

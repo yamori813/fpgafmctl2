@@ -99,7 +99,7 @@ char hexchar(int val)
 // 236kHz 198kHz 162kHz 126kHz
 // default 1
 #define BAND 1
-#define STATTX 0 // 0 = off, 1 = on
+#define STATTX 1 // 0 = off, 1 = on
 #define MUTI 0 // Multi path off = 0, on = 1
 
 #define SAMPLE 0 // 0 = 48k, 1 = 96K, 2 = 192K, 3 = 192K 
@@ -243,7 +243,7 @@ void selectst(uint8_t st)
 	lcd_putc('.');
 	lcd_putc(fqint % 10 + '0');
 	lcd_putc('M');
-	lcd_ctl(0xc0);   // Next line
+//	lcd_ctl(0xc0);   // Next line
 
 	uart_putc((fqint / 100) + '0');
 	uart_putc((fqint / 10) % 10 + '0');
