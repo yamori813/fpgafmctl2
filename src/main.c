@@ -156,9 +156,7 @@ int main(void) {
         buf[p] = c;
         ++p;
       } else {
-        lcd_ctl(0xc0);
-        lcd_putc(' ');
-        lcd_putc(' ');
+        lcd_ctl(0xc2);
         if (buf[0] != '0')
           lcd_putc(buf[0]);
         lcd_putc(buf[1]);
