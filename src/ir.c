@@ -243,6 +243,7 @@ void selectst(uint8_t st)
 	lcd_putc('.');
 	lcd_putc(fqint % 10 + '0');
 	lcd_putc('M');
+	lcd_putc(0);
 //	lcd_ctl(0xc0);   // Next line
 
 	uart_putc((fqint / 100) + '0');

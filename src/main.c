@@ -72,12 +72,16 @@ int main(void) {
 
   DDRD |= (1 << LED_BIT);
    
+#if 1
+  _delay_ms(500);
+#else
   for (i = 0; i < 5; i++) {
     PORTD |= (1 << LED_BIT);
     _delay_ms(50);
     PORTD &= ~(1 << LED_BIT);
     _delay_ms(50);
   }
+#endif
 
   init_ir();
 
@@ -109,6 +113,17 @@ int main(void) {
 
   /* function setup */
   lcd_ctl(0x28);
+
+  /* set cgram */
+  lcd_ctl(0x40);
+  lcd_putc(0x12);
+  lcd_putc(0x1e);
+  lcd_putc(0x12);
+  lcd_putc(0x0f);
+  lcd_putc(0x02);
+  lcd_putc(0x04);
+  lcd_putc(0x0f);
+  lcd_putc(0);
 
   /* display on, cursole on, blink on */
   lcd_ctl(0x0c);
